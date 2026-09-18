@@ -1,162 +1,84 @@
 # Full Path Workflow
 
-**Applicable to**: SEM/CFA, HLM, IRT, Meta-analysis, RI-CLPM, and other complex analyses
-
----
-
-## Workflow Overview
+For SEM/CFA, HLM, IRT, meta-analysis, RI-CLPM, PSM. Four stages, pause for
+confirmation after each. R runs via `docker/` — no R code duplicated here.
 
 ```
-Phase 1: Data Cleaning Plan -> Pause for Confirmation
-         |
-Phase 2: Execute Cleaning -> Pause for Confirmation
-         |
-Phase 3: Analysis Plan -> Pause for Confirmation
-         |
-Phase 4: Execute Analysis -> Output Results
+Stage 1: profile + cleaning plan  →  CONFIRM
+Stage 2: execute cleaning         →  CONFIRM
+Stage 3: analysis plan + adequacy →  CONFIRM
+Stage 4: execute → triplet output
 ```
 
----
+If the user requests changes mid-flight, show original-vs-new table and re-confirm
+before redoing downstream stages.
 
-## Phase 1: Data Cleaning Plan
-
-### Output Template
+## Stage 1: Cleaning plan
 
 ```markdown
 ## Data Overview
-- Sample size: N = 3248
-- Number of variables: 15
+- N original = ... · variables = ... (continuous X, categorical Y)
 
 ## Cleaning Plan
-
-### Missing Value Treatment
-| Variable | Missing Count | Missing % | Treatment |
-|----------|---------------|-----------|-----------|
-| Variable A | 50 | 5% | Deletion |
-| Variable B | 300 | 30% | Mean imputation |
-
-### Outlier Treatment
-| Variable | Outlier Count | Treatment |
+| Variable | Missing n (%) | Treatment |
 |----------|---------------|-----------|
-| Age | 5 | Retain |
+| ... | ... | [delete / MICE / FIML / retain] |
 
-### Expected Results
-- Expected final sample size: N = 3005
-- Retention rate: 92.5%
+| Check | Result | Action |
+|-------|--------|--------|
+| Outliers (> 3SD) | ... | [retain / winsorize / drop + why] |
+| Nesting (ICC) | ... | [single-level / HLM if > .05] |
+| Leaf-level only | ... | [totals + parents dropped] |
 
+Expected N final = ... (retention ...%)
 ---
-Pause: Please confirm the cleaning plan
+⏸ Confirm cleaning plan
 ```
 
----
-
-## Phase 2: Execute Cleaning
-
-### Output Template
+## Stage 2: Cleaning results
 
 ```markdown
 ## Cleaning Results
-- Original: 3248 -> Final: 3005
-- Retention rate: 92.5%
-
-## Processing Details
-1. Missing value deletion: 243 cases
-2. Outlier treatment: 0 cases deleted
-
-## Output Files
-- data_cleaned.xlsx
-
+- N: ... → ... (retention ...%)
+- Done: [1. ... 2. ...]
+- Saved: data_cleaned.csv
 ---
-Pause: Please confirm the cleaning results
+⏸ Confirm cleaning results
 ```
 
----
-
-## Phase 3: Analysis Plan
-
-### Output Template
+## Stage 3: Analysis plan
 
 ```markdown
 ## Variable Roles
-| Role | Variable | Description |
-|------|----------|-------------|
-| Latent Variable 1 | visual | x1, x2, x3 |
-| Latent Variable 2 | textual | x4, x5, x6 |
-| Structural Path | visual -> textual | Hypothesized relationship |
+| Role | Variable | Notes |
+|------|----------|-------|
+| Latent / grouping / outcome / predictor | ... | ... |
 
-## Analysis Plan
-| No. | Content | Method | Output |
-|-----|---------|--------|--------|
-| 1 | CFA | lavaan | Path diagram, fit indices |
-| 2 | SEM | lavaan | Path coefficients, model comparison |
+## Plan
+| # | Step | Method | Output |
+|---|------|--------|--------|
+| 1 | [e.g. CFA] | [lavaan via docker] | [fit indices, diagram] |
+| 2 | [e.g. SEM] | ... | [paths, comparison] |
 
-## Output Specifications
-- Chart language: Chinese/English?
-- Table format: APA 7
-
+## Adequacy
+- [SEM: N > 200? HLM: ≥ 30 groups? Meta: k ≥ ...? IRT: n per item?]
+- Figures/tables language: [EN / AZ] · APA format
 ---
-Pause: Please confirm the analysis plan
+⏸ Confirm analysis plan
 ```
 
----
+## Stage 4: Execute
 
-## Phase 4: Execute Analysis
-
-### R Code Execution
+Python-first; R only via Docker when Python cannot (see `code-patterns.md` §R):
 
 ```bash
-# Write script
-cat > analysis.R << 'EOF'
-library(lavaan)
-library(semPlot)
-
-data <- read.csv("data_clean.csv")
-
-model <- '
-  visual  =~ x1 + x2 + x3
-  textual =~ x4 + x5 + x6
-  textual ~ visual
-'
-
-fit <- sem(model, data = data)
-
-# Output fit indices
-cat("\n[Model Fit]\n")
-fitmeasures(fit, c("cfi", "tli", "rmsea", "srmr"))
-
-# Output path coefficients
-cat("\n[Path Coefficients]\n")
-parameterEstimates(fit, standardized = TRUE)
-
-# Save path diagram
-pdf("path_diagram.pdf", width = 10, height = 8)
-semPaths(fit, what = "std", layout = "tree2")
-dev.off()
-EOF
-
-# Execute
-docker run --rm -v "$(pwd)":/workspace -w /workspace r-statistical:1.0 Rscript analysis.R
+cd docker && ./r-stat.sh build     # once
+./r-stat.sh run ../analysis.R      # per analysis
+# no Docker? emit standalone .R for RStudio instead
 ```
 
-### Output Checklist
+Examples: `docker/examples/sem_example.R`, `hlm_example.R`, `meta_example.R`.
 
-The following must be produced after analysis is complete:
-- [ ] Results table (.xlsx)
-- [ ] Charts (.pdf)
-- [ ] Brief interpretation
-
----
-
-## Handling Changes
-
-If the user requests changes in a later phase:
-
-```markdown
-## Warning: Requirement Change
-
-| Item | Original | New |
-|------|----------|-----|
-| [Item] | [Original] | [New] |
-
-Proceed with the new requirements?
-```
+Checklist before closing: [ ] results table (.xlsx) · [ ] figure (dpi=300) ·
+[ ] result paragraph · [ ] fit/heterogeneity indices reported ·
+[ ] limitations stated (small N, non-independence, nominal values).
