@@ -27,7 +27,7 @@ guides diagnosis, method choice, and reporting step by step.
 
 - An AI assistant that loads `SKILL.md` (opencode, Claude Code, or similar).
 - Python 3.10+ with `pandas scipy statsmodels pingouin matplotlib seaborn scikit-learn`.
-- Optional: Docker (only for R methods — SEM/HLM/meta/IRT).
+- RStudio (optional, only for advanced SEM/HLM/meta/IRT).
 
 ---
 
@@ -45,8 +45,6 @@ guides diagnosis, method choice, and reporting step by step.
    (`.docx` is parsed automatically, never copy-paste).
 3. **Ask** — e.g. "compare 2025 vs 2024 by sector", "run regression of Y on X", "validate my scale".
 4. **Receive the triplet** — table + figure + paragraph, ready for your paper.
-
-R methods (SEM/HLM/meta) need Docker: see `docker/README.md`.
 
 ---
 
@@ -87,7 +85,6 @@ references/
   table-formats.md         # APA table templates
   full-workflow.md         # 4-stage complex-analysis workflow
   official-tables.md       # non-tidy table checklist
-docker/                    # R environment (lavaan, lme4, metafor)
 assets/report-template.md  # report skeleton (EN + AZ)
 ```
 

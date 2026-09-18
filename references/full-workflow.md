@@ -1,7 +1,7 @@
 # Full Path Workflow
 
 For SEM/CFA, HLM, IRT, meta-analysis, RI-CLPM, PSM. Four stages, pause for
-confirmation after each. R runs via `docker/` — no R code duplicated here.
+confirmation after each.
 
 ```
 Stage 1: profile + cleaning plan  →  CONFIRM
@@ -57,7 +57,7 @@ Expected N final = ... (retention ...%)
 ## Plan
 | # | Step | Method | Output |
 |---|------|--------|--------|
-| 1 | [e.g. CFA] | [lavaan via docker] | [fit indices, diagram] |
+| 1 | [e.g. CFA] | [semopy / lavaan .R] | [fit indices, diagram] |
 | 2 | [e.g. SEM] | ... | [paths, comparison] |
 
 ## Adequacy
@@ -69,15 +69,9 @@ Expected N final = ... (retention ...%)
 
 ## Stage 4: Execute
 
-Python-first; R only via Docker when Python cannot (see `code-patterns.md` §R):
-
-```bash
-cd docker && ./r-stat.sh build     # once
-./r-stat.sh run ../analysis.R      # per analysis
-# no Docker? emit standalone .R for RStudio instead
-```
-
-Examples: `docker/examples/sem_example.R`, `hlm_example.R`, `meta_example.R`.
+Python-first (semopy, statsmodels, factor_analyzer, pymare, lifelines).
+Beyond Python's reach → emit a standalone `.R` script for RStudio
+(lavaan / lme4 / metafor / mirt) with install instructions.
 
 Checklist before closing: [ ] results table (.xlsx) · [ ] figure (dpi=300) ·
 [ ] result paragraph · [ ] fit/heterogeneity indices reported ·

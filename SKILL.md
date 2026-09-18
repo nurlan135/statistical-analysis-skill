@@ -199,7 +199,7 @@ robust SE HC3) before proceeding.
 Work in four confirmed stages — see `references/full-workflow.md` for output templates:
 (1) data profile + cleaning plan, (2) cleaning + assumption checks,
 (3) analysis plan + sample adequacy, (4) execute → triplet output.
-Pause for confirmation at each stage. R code runs via `docker/` environment.
+Pause for confirmation at each stage.
 
 ---
 
@@ -256,6 +256,7 @@ Always alert the user when missingness exceeds 5%.
 | ANOVA, reliability (Cronbach α), ICC | pingouin |
 | ROC/AUC | sklearn |
 | survival | lifelines |
-| SEM/HLM/IRT/meta (Python impossible or user asks for R) | R via docker |
+| SEM (basic), HLM (2-level) | semopy, statsmodels |
+| SEM/HLM/IRT/meta beyond Python | standalone .R script for RStudio |
 
-Only use R when the user explicitly requests it or Python cannot do the method.
+Complex needs beyond Python get a standalone .R script for RStudio.

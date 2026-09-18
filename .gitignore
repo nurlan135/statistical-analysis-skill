@@ -2,8 +2,8 @@
 .DS_Store
 Thumbs.db
 
-# Docker build artifacts
-docker/examples/*.pdf
+# R artifacts
+*.pdf
 
 # Data files (never commit user data)
 *.xlsx

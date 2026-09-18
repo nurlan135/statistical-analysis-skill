@@ -251,6 +251,5 @@ with pd.ExcelWriter('results.xlsx') as w:
 
 ## R (only when Python cannot)
 
-Full workflow and templates live in `docker/` and `references/full-workflow.md`.
-Rule: try Python first → Docker R (`./r-stat.sh run analysis.R`) → else emit a
-standalone `.R` file for RStudio. Never duplicate R templates here.
+Rule: try Python first, else emit a standalone `.R` script for RStudio
+(lavaan / lme4 / metafor / mirt templates in `references/full-workflow.md`).

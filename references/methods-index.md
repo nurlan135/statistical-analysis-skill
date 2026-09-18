@@ -84,7 +84,7 @@ Median follow-up always stated.
 
 | Structure | Method | Gate |
 |---|---|---|
-| Latent + paths | SEM/CFA (semopy → lavaan via `docker/`) | N > 200; fit: χ²(df), RMSEA [90% CI], CFI, SRMR |
+| Latent + paths | SEM/CFA (semopy; lavaan .R if complex) | N > 200; fit: χ²(df), RMSEA [90% CI], CFI, SRMR |
 | Nested (ICC > .05) | HLM, null → intercept → slope | ≥ 30 groups preferred |
 | Studies as units | Meta, random-effects default | Q, I² (25/50/75), τ², Egger + funnel |
 | Items as units | IRT: Rasch/2PL/3PL/GRM | b ∈ [−3, 3], a ∈ [0.5, 2.5] |
