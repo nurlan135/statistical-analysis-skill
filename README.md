@@ -33,13 +33,17 @@ guides diagnosis, method choice, and reporting step by step.
 
 ## 🚀 Getting started
 
-1. **Copy the skill** into your assistant's skill folder:
+1. **Copy the skill** into your assistant's skill folder (opencode, Claude Code, Codex):
    ```bash
-   # opencode (project scope)
+   # macOS / Linux — opencode (project scope)
    cp SKILL.md references assets .opencode/skills/statistical-analysis/ -r
 
-   # Claude Code (personal)
+   # macOS / Linux — Claude Code (personal)
    cp -r . ~/.claude/skills/statistical-analysis/
+   ```
+   ```powershell
+   # Windows PowerShell — opencode (project scope)
+   Copy-Item SKILL.md, references, assets .opencode/skills/statistical-analysis/ -Recurse -Force
    ```
 2. **Prepare data** — CSV/Excel with clear headers, or a Word report with tables
    (`.docx` is parsed automatically, never copy-paste).
