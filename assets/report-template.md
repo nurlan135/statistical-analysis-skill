@@ -1,79 +1,80 @@
-# Statistical Analysis Report
+# Analysis Report Template
 
-## 1. Data Overview
+Fill top to bottom. Every analysis section ships the triplet: table + figure + paragraph.
+Delete sections that do not apply. Azerbaijani version follows the same skeleton —
+see §7.
 
-### 1.1 Sample Information
+## 1. Data Profile
 
-- Original sample size: N = [fill in]
-- Valid sample size: N = [fill in]
-- Data source: [fill in]
+| Metric | Value |
+|--------|-------|
+| Source | [file + sheet/table] |
+| Sample size | N = [valid / original] |
+| Variables | [total (continuous: X, categorical: Y)] |
+| Missing | [overall %; highest variable + treatment] |
+| Normality | [pass / variable + fallback used] |
 
-### 1.2 Data Processing
+> Assumption notes (e.g. "Variable X failed Shapiro p = .003 → Mann-Whitney U").
 
-- Missing values: [processing method]
-- Outliers: [processing method]
+## 2. Descriptives
 
----
+[Table 1: continuous — M, SD, skew, kurt]
+[Table 2: categorical — n, %]
 
-## 2. Descriptive Statistics
+One-sentence read: [e.g. "Scores centered near midpoint with mild right skew."]
 
-### 2.1 Continuous Variables
+## 3. [Analysis: e.g. Group Comparison]
 
-[Insert Table 1]
+### 3.1 Method
 
-### 2.2 Categorical Variables
+[Test + why: assumptions met/failed, fallback, corrections (Holm), SE type (HC3).]
 
-[Insert Table 2]
+### 3.2 Results
 
----
+[Table: estimates, 95% CI, p, p_adj, effect size]
+[Figure: method-matched plot, dpi=300]
 
-## 3. Correlation Analysis
+### 3.3 Result paragraph (paste-ready)
 
-[Insert Table 3]
+[2–5 sentences: test, numbers (M/SD or B/CI), p, effect size, plain-language verdict.]
 
-[Insert Figure 1: Correlation heatmap]
+## 4. [Next Analysis]
 
-**Summary of results**: [Text describing main findings]
+[Same 3.1–3.3 skeleton.]
 
----
+## 5. Sector Tables (if official statistics)
 
-## 4. [Analysis Name]
+[Table 8 format: leaf sectors only. Mandatory note: totals/parents excluded,
+rows non-independent → p descriptive; values nominal unless deflated.]
 
-### 4.1 Method
+## 6. Methods Note
 
-[Describe method]
+- Software: Python [libs] [+ R via Docker if used]
+- α = .05, two-sided; Holm adjustment within each family
+- Effect sizes with 95% CI throughout; small-N results marked exploratory
 
-### 4.2 Results
+### Symbols
 
-[Insert table]
-
-[Insert figure (if applicable)]
-
-### 4.3 Interpretation
-
-[Interpretation of results]
-
----
-
-## 5. [Analysis Name]
-
-[Same structure as above]
+M, SD, SE, CI, B, β, R², ΔR², d, r, HR, AUC, α — define any non-obvious one.
 
 ---
 
-## Notes
+## 7. Azərbaycan şablonu (eyni skelet)
 
-### Statistical Methods
+### 7.1 Məlumat profili
 
-- Software: Python (pandas, scipy, statsmodels)
-- Significance level: alpha = .05
+| Göstərici | Dəyər |
+|-----------|-------|
+| Mənbə | [fayl + cədvəl] |
+| Həcm | N = [yararlı / ilkin] |
+| Dəyişənlər | [cəmi (kəmiyyət: X, kateqorik: Y)] |
+| Çatışmayan | [ümumi %; ən yüksək dəyişən + üsul] |
+| Normallıq | [keçdi / dəyişən + alternativ test] |
 
-### Symbol Legend
+### 7.2 Nəticə paraqrafı (məqaləyə hazır)
 
-- M = mean, SD = standard deviation
-- B = unstandardized coefficient, beta = standardized coefficient
-- *p < .05, **p < .01, ***p < .001
+[2–5 cümlə: test, rəqəmlər, p, effekt ölçüsü, sadə dildə hökm.]
 
 ---
 
-*Report generated on: [date]*
+*Report generated: [date] · Skill: statistical-analysis-skill*
