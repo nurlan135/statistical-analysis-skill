@@ -1,187 +1,162 @@
-# APA Table Formatting Standards
+# APA Table Standards
 
 ## General Rules
 
-- Decimals: 2 for statistics, 3 for p-values
-- Leading zero: Omit for values that cannot exceed 1 (r, p, β)
-- Significance: *p < .05, **p < .01, ***p < .001
-- Notes below table explain abbreviations and symbols
+- Statistics: 2 decimals. p-values: 3 decimals, never `p = .000` — use `< .001`.
+- Leading zero omitted for values bounded by 1 (r, p, β, α, AUC, ICC).
+- Stars: *p < .05, **p < .01, ***p < .001.
+- Every table ends with *Note.* explaining abbreviations, coding, and N.
+- 3+ comparisons in one family → add Holm-adjusted p column (`p_adj`,
+  statsmodels `multipletests`, method='holm').
+- Effect size + 95% CI mandatory next to every p; at small N (< 30) add
+  "power limited, exploratory" to the note.
+- Cross-year money tables → add "Values nominal; real change unknown without
+  deflator" to the note.
 
-## Table 1: Descriptive Statistics (Continuous)
+## Table 1: Continuous Descriptives
 
-| Variable | M | SD | Min | Max | Skewness | Kurtosis |
+| Variable | M | SD | Min | Max | Skew | Kurt |
 |----------|---:|---:|---:|---:|---:|---:|
 | Variable 1 | 3.45 | 1.23 | 1.00 | 7.00 | 0.12 | -0.34 |
 | Variable 2 | 4.56 | 0.98 | 1.50 | 6.50 | -0.23 | 0.56 |
 
-*Note.* N = 500. M = mean; SD = standard deviation.
+*Note.* N = 500. M = mean; SD = standard deviation; Skew = skewness; Kurt = kurtosis.
 
-## Table 2: Descriptive Statistics (Categorical)
+## Table 2: Categorical Descriptives
 
 | Variable | n | % |
 |----------|---:|---:|
 | Gender | | |
-| 　Male | 245 | 49.0 |
-| 　Female | 255 | 51.0 |
+| Male | 245 | 49.0 |
+| Female | 255 | 51.0 |
 | Education | | |
-| 　High school | 120 | 24.0 |
-| 　Bachelor's | 280 | 56.0 |
-| 　Master's+ | 100 | 20.0 |
+| High school | 120 | 24.0 |
+| Bachelor's | 280 | 56.0 |
+| Master's+ | 100 | 20.0 |
 
 *Note.* N = 500.
 
 ## Table 3: Correlation Matrix
 
-| Variable | 1 | 2 | 3 | 4 | 5 |
-|----------|---:|---:|---:|---:|---:|
-| 1. Variable A | — | | | | |
-| 2. Variable B | .45*** | — | | | |
-| 3. Variable C | .23** | .34*** | — | | |
-| 4. Variable D | -.12 | .56*** | .28** | — | |
-| 5. Variable E | .67*** | .18* | -.09 | .41*** | — |
+| Variable | 1 | 2 | 3 | 4 |
+|----------|---:|---:|---:|---:|
+| 1. Variable A | — | | | |
+| 2. Variable B | .45*** | — | | |
+| 3. Variable C | .23** | .34*** | — | |
+| 4. Variable D | -.12 | .56*** | .28** | — |
 
-*Note.* N = 500. *p < .05. **p < .01. ***p < .001.
+*Note.* N = 500. Pearson r. *p < .05. **p < .01. ***p < .001 (Holm-adjusted within matrix).
 
-## Table 4: Regression Analysis
+## Table 4: Regression
 
-| Variable | B | SE | β | t | p |
-|----------|---:|---:|---:|---:|---:|
-| (Constant) | 2.34 | 0.45 | | 5.20 | <.001 |
-| Gender | 0.23 | 0.12 | .11 | 1.92 | .056 |
-| Age | -0.02 | 0.01 | -.08 | -2.00 | .046 |
-| Predictor X | 0.45 | 0.08 | .34 | 5.63 | <.001 |
+| Variable | B | SE | β | t | p | p_adj | 95% CI |
+|----------|---:|---:|---:|---:|---:|---:|---:|
+| (Constant) | 2.34 | 0.45 | | 5.20 | <.001 | <.001 | [1.46, 3.22] |
+| Predictor X | 0.45 | 0.08 | .34 | 5.63 | <.001 | <.001 | [0.29, 0.61] |
+| Age | -0.02 | 0.01 | -.08 | -2.00 | .046 | .092 | [-0.04, 0.00] |
 
-*Note.* N = 500. R² = .23. Gender coded: 0 = male, 1 = female.
+*Note.* N = 500. R² = .23. Robust SE (HC3). p_adj = Holm.
 
 ## Table 5: Hierarchical Regression
 
 | Variable | Step 1 | | Step 2 | |
 |----------|---:|---:|---:|---:|
 | | β | p | β | p |
-| Gender | .12 | .034 | .10 | .065 |
-| Age | -.08 | .089 | -.06 | .178 |
+| Control A | .12 | .034 | .10 | .065 |
 | Predictor X | | | .34 | <.001 |
 | R² | .05 | | .17 | |
 | ΔR² | | | .12*** | |
 
-*Note.* N = 500. ***p < .001.
+*Note.* N = 500. ***p < .001 for ΔR² (ΔF test).
 
-## Table 6: Moderation Analysis
+## Table 6: Moderation
 
 | Variable | B | SE | t | p | 95% CI |
 |----------|---:|---:|---:|---:|---:|
-| (Constant) | 3.45 | 0.23 | 15.00 | <.001 | [3.00, 3.90] |
 | X | 0.34 | 0.08 | 4.25 | <.001 | [0.18, 0.50] |
 | M | 0.28 | 0.09 | 3.11 | .002 | [0.10, 0.46] |
 | X × M | 0.15 | 0.05 | 3.00 | .003 | [0.05, 0.25] |
 
-*Note.* N = 500. R² = .28. Variables centered before analysis.
+**Simple slopes:**
 
-**Simple Slopes:**
-| Moderator Level | B | SE | t | p |
-|-----------------|---:|---:|---:|---:|
+| Level | B | SE | t | p |
+|-------|---:|---:|---:|---:|
 | Low (-1 SD) | 0.19 | 0.10 | 1.90 | .058 |
 | High (+1 SD) | 0.49 | 0.09 | 5.44 | <.001 |
 
-## Table 7: Mediation Analysis
+*Note.* N = 500. R² = .28. Predictors centered.
+
+## Table 7: Mediation (bootstrap)
 
 | Path | B | SE | 95% CI |
-|------|---:|---:|---:|
-| Total effect (c) | 0.45 | 0.08 | [0.29, 0.61] |
-| Direct effect (c') | 0.28 | 0.09 | [0.10, 0.46] |
-| Indirect effect (a×b) | 0.17 | 0.05 | [0.08, 0.28] |
+|------|---:|---:|---|
+| Total (c) | 0.45 | 0.08 | [0.29, 0.61] |
+| Direct (c') | 0.28 | 0.09 | [0.10, 0.46] |
+| Indirect (a×b) | 0.17 | 0.05 | [0.08, 0.28] |
 
-*Note.* N = 500. Bootstrap = 5000. CI = bias-corrected confidence interval.
+*Note.* N = 500. 5000 bootstrap samples, percentile CI. CI excludes zero → significant indirect effect (partial mediation).
 
-## p-value Formatting
+## Table 8: Sector / Group Comparison (official tables)
 
-| Value | Format |
-|-------|--------|
-| p = .0234 | p = .023 |
-| p = .0034 | p = .003 |
-| p < .001 | p < .001 |
-| p = .050 | p = .050 |
-| p = .051 | p = .051 |
+| Sector | 2025 | 2024 | Growth % | p | p_adj |
+|--------|---:|---:|---:|---:|---:|
+| Food | 17888.70 | 10262.60 | +74.31 | <.001 | <.001 |
+| Energy | 6940.30 | 4510.70 | +53.86 | .012 | .048 |
+| Chemicals | 18708.80 | 19860.10 | -5.80 | .310 | .620 |
 
-## Table 8: Reliability Analysis
+*Note.* Leaf-level sectors only (totals and parent aggregates excluded, zero rows dropped).
+Rows are not independent samples — p-values descriptive; Holm-adjusted. Values nominal.
 
-| Subscale | Items | M | SD | Cronbach's α | CITC Range |
-|----------|------:|---:|---:|---:|---:|
-| Subscale A | 5 | 3.45 | 0.89 | .85 | .52-.71 |
-| Subscale B | 4 | 3.12 | 1.02 | .78 | .45-.63 |
-| Subscale C | 6 | 4.01 | 0.76 | .82 | .48-.68 |
-| **Total Scale** | **15** | **3.53** | **0.72** | **.91** | — |
+## Table 9: Reliability
 
-*Note.* N = 500. CITC = corrected item-total correlation.
+| Subscale | Items | M | SD | α | CITC range |
+|----------|------:|---:|---:|---:|---|
+| Subscale A | 5 | 3.45 | 0.89 | .85 | .52–.71 |
+| **Total** | **15** | **3.53** | **0.72** | **.91** | — |
 
-## Table 9: ROC Analysis / Diagnostic Accuracy
+*Note.* N = 500. α = Cronbach's alpha; CITC = corrected item-total correlation.
+
+## Table 10: ROC
 
 | Index | Value | 95% CI |
-|-------|------:|---:|
+|-------|------:|---|
 | AUC | .85 | [.80, .90] |
-| Optimal Cutoff | 12.5 | — |
+| Cutoff (Youden) | 12.50 | — |
 | Sensitivity | .82 | [.76, .87] |
 | Specificity | .78 | [.72, .84] |
-| PPV | .80 | [.74, .85] |
-| NPV | .81 | [.75, .86] |
-| LR+ | 3.73 | [2.89, 4.82] |
-| LR- | 0.23 | [0.17, 0.31] |
 
-*Note.* N = 500 (cases = 250, controls = 250). Cutoff determined by Youden's index.
+*Note.* N = 500 (250 cases, 250 controls).
 
-## Table 10: Survival Analysis (Cox Regression)
+## Table 11: Cox Regression
 
 | Variable | HR | 95% CI | p |
-|----------|---:|---:|---:|
+|----------|---:|---|---:|
 | Age (per year) | 1.03 | [1.01, 1.05] | .008 |
-| Gender (Female vs Male) | 0.72 | [0.55, 0.94] | .016 |
-| Stage (III vs I-II) | 2.45 | [1.82, 3.30] | <.001 |
-| Treatment (New vs Standard) | 0.58 | [0.43, 0.78] | <.001 |
+| Treatment (new vs standard) | 0.58 | [0.43, 0.78] | <.001 |
 
-*Note.* N = 500. HR = hazard ratio. CI = confidence interval. Median follow-up: 24 months.
+*Note.* N = 500. HR = hazard ratio. Median follow-up 24 months.
 
-## Table 11: ICC / Inter-rater Reliability
+## Table 12: Power / Sample Size
 
-| Measure | ICC Type | ICC | 95% CI | Interpretation |
-|---------|----------|----:|---:|---:|
-| Total Score | ICC(3,1) | .89 | [.84, .93] | Good |
-| Subscale A | ICC(3,1) | .85 | [.78, .90] | Good |
-| Subscale B | ICC(3,1) | .76 | [.68, .83] | Moderate |
-
-*Note.* k = 3 raters. N = 50 subjects. ICC = intraclass correlation coefficient.
-
-## Table 12: Power Analysis / Sample Size
-
-| Analysis | Effect Size | α | Power | Required N |
-|----------|------------|---:|---:|---:|
+| Analysis | Effect | α | Power | Required N |
+|----------|---|---:|---:|---:|
 | Independent t-test | d = 0.50 | .05 | .80 | 64/group |
-| One-way ANOVA (3 groups) | f = 0.25 | .05 | .80 | 159/group |
+| One-way ANOVA (3 groups) | f = 0.25 | .05 | .80 | 159 total |
 | Pearson correlation | r = .30 | .05 | .80 | 85 total |
 | Multiple regression (3 IVs) | f² = .15 | .05 | .80 | 77 total |
 
-*Note.* Sample sizes calculated using two-sided tests.
+*Note.* Two-sided tests.
 
-## Common Abbreviations
+## p-value Quick Reference
 
-| Abbreviation | Meaning |
-|--------------|---------|
-| M | Mean |
-| SD | Standard deviation |
-| SE | Standard error |
-| CI | Confidence interval |
-| B | Unstandardized coefficient |
-| β | Standardized coefficient |
-| R² | R-squared |
-| ΔR² | R-squared change |
-| df | Degrees of freedom |
-| n | Sample size (subgroup) |
-| N | Total sample size |
-| HR | Hazard ratio |
-| AUC | Area under the curve |
-| PPV | Positive predictive value |
-| NPV | Negative predictive value |
-| LR+ | Positive likelihood ratio |
-| LR- | Negative likelihood ratio |
-| ICC | Intraclass correlation coefficient |
-| CITC | Corrected item-total correlation |
-| α | Cronbach's alpha |
+| Raw | Print |
+|-----|---|
+| .0234 | = .023 |
+| .0004 | < .001 |
+| .050 | = .050 (marginal — state explicitly, never "trend toward significance") |
+
+## Bilingual Notes (optional)
+
+Result paragraphs and table notes can be issued in Azerbaijani on request.
+Template: "*Qeyd.* N = 500. ..." — same rules, translated abbreviations
+(O = orta, SS = standart sapma — define on first use).
