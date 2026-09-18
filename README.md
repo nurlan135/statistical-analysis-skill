@@ -1,4 +1,4 @@
-# 📊 statistical-analysis-skill — Diagnosis Before Analysis
+# 📊 stats-skill-for-ai-agents — Diagnosis Before Analysis
 
 Turn your AI assistant into a statistical consultant that **profiles data and checks
 assumptions first**, then selects the right method and delivers publish-ready results:
